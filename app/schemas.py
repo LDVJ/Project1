@@ -21,3 +21,7 @@ class user(BaseModel):
     model_config = {
         'from_attributes': True
     }
+
+class ValidateUser(BaseModel):
+    email : EmailStr
+    password : str
