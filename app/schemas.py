@@ -1,5 +1,6 @@
-from pydantic import BaseModel, EmailStr, condecimal
-from typing import List
+from pydantic import BaseModel, EmailStr, condecimal, HttpUrl, Field
+from typing import List, Literal,Annotated
+from decimal import Decimal
 from datetime import datetime
 
 class create_user(BaseModel):
@@ -35,21 +36,21 @@ class token_data(BaseModel):
     id : str
 
 
-class Create_prduct(BaseModel):
+class create_product(BaseModel):
     name: str
-    price: condecimal(max_digits=10, decimal_places=2, gt=0) #type: Ignore
+    price: Annotated[Decimal, Field(max_digits=10, decimal_places=2, gt=0)] 
     tags : List[str] | None = None
-    currency : str | None = "USD"
-    url : str | None = None
+    currency : Literal["USD","INR","EUR","GBP"] = "USD"
+    url : HttpUrl | None = None
 
+class product_details(create_product):
+    id: int
+    created_at : datetime
+    updated_at : datetime | None = None
 
-
-
-    #  id = Column(Integer,primary_key=True,nullable= False)
-    # name = Column(String,nullable=False)
-    # price = Column(NUMERIC(10,2),nullable=False)
-    # created_at = Column(DateTime(timezone=True),nullable=False,server_default=func.now())
-    # updated_at = Column(DateTime(timezone=True), onupdate=func.now(),nullable=True)
-    # currency = Column(Enum('USD',"INR","EUR","GBP", name="currency_enum"), nullable=False, default = "USD")
-    # url = Column(Text, nullable=True)
-    # tags = Column(JSON,nullable=True)
+class update_product(BaseModel):
+    name: str | None
+    price: Annotated[Decimal, Field(max_digits=10, decimal_places=2, gt=0)] | None = None
+    tags : List[str] | None = None 
+    currency : Literal["USD","INR","EUR","GBP"] = "USD"
+    url : HttpUrl | None = None
