@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from ..db import get_db
-from .. import schemas, models
+from .. import schemas, models, oauth2
 from sqlalchemy.orm import Session
 from typing import List
 
@@ -13,7 +13,7 @@ router = APIRouter(
 
 
 @router.get("/", response_model=List[schemas.product_details], status_code=status.HTTP_200_OK)
-def get_all_prodct(db: Session = Depends(get_db)):
+def get_all_prodct(db: Session = Depends(get_db), get_current_user = Depends(oauth2.get_user_with_token)):
     all_posts = db.query(models.Products).all()
     return all_posts
 

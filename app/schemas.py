@@ -35,7 +35,6 @@ class valid_token(BaseModel):
 class token_data(BaseModel):
     id : str
 
-
 class create_product(BaseModel):
     name: str
     price: Annotated[Decimal, Field(max_digits=10, decimal_places=2, gt=0)] 

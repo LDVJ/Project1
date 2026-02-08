@@ -21,18 +21,20 @@ def create_jwt_token(data: dict) -> str:
 def verify_jwt_token(token: str, credential_exception):
     try:
         payload = jwt.decode(token=token, key=SECRET_KEY, algorithms=[ALGORITHM])
-
-        id : str = payload.get("user_id") # it is the key of the data we send during the encoding process
-        
+        id : str = payload.get("user_id") # it is the key of the data we send during the encoding process     
         if id is None: 
             raise credential_exception
         token_data = schemas.token_data(id = id)
+
     except JWTError:
         credential_exception
+
+    
+    return token_data
 
 
 def get_user_with_token(token: str  = Depends(oauth2_schema)):
     credential_exception= HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Unauthorised access", headers={"WWW-Authenticate":"Bearer"})
 
-    return verify_jwt_token(token=token,credential_exception=credential_exception)
+    return verify_jwt_token(token=token,credential_exception=credential_exception)  
     
