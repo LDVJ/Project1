@@ -14,9 +14,9 @@ router = APIRouter(
 def login(user_creds: OAuth2PasswordRequestForm = Depends(), db: Session =Depends(get_db)):
     credentials_check = db.query(models.users).filter(models.users.email == user_creds.username).first()
     if credentials_check is None:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Invalid Credentials")
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Invalid Credentials")
     if not utilities.verify_hash_password(user_creds.password, credentials_check.password):
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,detail="Invalid Credentials")
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN,detail="Invalid Credentials")
     access_token = oauth2.create_jwt_token({'user_id':credentials_check.id})
     # print(access_token)
     return {"access_token":access_token,"token_type":"bearer"}

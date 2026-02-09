@@ -33,7 +33,7 @@ class valid_token(BaseModel):
     token_type : str
 
 class token_data(BaseModel):
-    id : str
+    id : int
 
 class create_product(BaseModel):
     name: str

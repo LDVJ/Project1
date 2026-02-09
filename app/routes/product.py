@@ -13,7 +13,8 @@ router = APIRouter(
 
 
 @router.get("/", response_model=List[schemas.product_details], status_code=status.HTTP_200_OK)
-def get_all_prodct(db: Session = Depends(get_db), get_current_user = Depends(oauth2.get_user_with_token)):
+def get_all_prodct(db: Session = Depends(get_db), get_current_user_id: int = Depends(oauth2.get_user_with_token)):
+    print(get_all_prodct)
     all_posts = db.query(models.Products).all()
     return all_posts
 
