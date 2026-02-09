@@ -39,7 +39,7 @@ def get_user_with_token(beared_token: str  = Depends(oauth2_schema), db: Session
 
     token = verify_jwt_token(token=beared_token,credential_exception=credential_exception)  
 
-    user_data = db.query(models.users).filter(models.users.id == token.id).first()
+    user_data = db.query(models.Users).filter(models.Users.id == token.id).first()
     print(user_data)
     return user_data
 

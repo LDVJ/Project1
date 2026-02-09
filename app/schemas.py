@@ -15,7 +15,7 @@ class update_user(BaseModel):
     name : str | None = None
     password : str | None = None
 
-class user(BaseModel):
+class UserData(BaseModel):
     id : int
     name : str
     email: EmailStr
@@ -65,6 +65,7 @@ class PostsData(CreatePost):
     created_at: datetime
     updated_at: datetime | None = None
     user_id : int
+    owner: UserData
     model_config = {
         'from_attributes': True
     }
