@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from .db import engine
 from . import models
-from .routes import users, authentication, product, post, postLikes
+from .routes import users, authentication, product, post, postLikes, votes
 
 models.Base.metadata.create_all(bind=engine)
 
@@ -16,3 +16,4 @@ app.include_router(users.router)
 app.include_router(product.router)
 app.include_router(post.router)
 app.include_router(postLikes.router)
+app.include_router(votes.router)

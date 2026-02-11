@@ -40,7 +40,7 @@ class Products(Base):
     url = Column(Text, nullable=True)
     tags = Column(JSON,nullable=True)
 
-class PostLikes(Base):
+class PostLikes(Base): #more production friendly becauses it makes ORM query handling more easy
     __tablename__ = "post_likes"
 
     id =  Column(Integer, primary_key = True, nullable = False)
@@ -51,3 +51,8 @@ class PostLikes(Base):
         UniqueConstraint("post_id", "user_id", name = "unique_post_like"),
     )
 
+class Votes(Base): # basic but makes the orm handling a bit tricky
+    __tablename__ = "votes"
+
+    post_id =  Column(Integer,ForeignKey("posts.id", ondelete="CASCADE"), primary_key=True,nullable=False)
+    user_id =  Column(Integer,ForeignKey("users.id", ondelete="CASCADE"), primary_key=True,nullable=False)

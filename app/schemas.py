@@ -105,3 +105,10 @@ class PostLikes(BaseModel):
     model_config  = {
         "from_attributes": True
     }
+
+class Vote(BaseModel):
+    post_id : int
+    vote_dir : Literal[0, 1]
+    model_config = {
+        "from_attributes": True
+    }
